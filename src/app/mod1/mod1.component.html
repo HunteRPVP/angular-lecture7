@@ -1,0 +1,155 @@
+<p>Поведение в объекте</p>
+
+<div>
+    <p>
+        <label>name </label>
+        <input type="text" [(ngModel)]="form1.name">
+        {{ form1.name }}
+    </p>
+    <p>
+        <label>description </label>
+        <input type="text" [(ngModel)]="form1.description">
+        {{ form1.description }}
+    </p>
+</div>
+
+<div>
+    <label>name:</label>
+    {{ form1.name }}
+</div>
+
+<div>
+    <label>description:</label>
+    {{ form1.description }}
+</div>
+
+<hr>
+
+<p>Поведение в форме</p>
+
+<form #myForm1 = "ngForm">
+    <p>
+        <label>name </label>
+        <input type="text" name="name" [(ngModel)]="name">
+        {{ name }}
+    </p>
+    <p>
+        <label>description </label>
+        <input type="text" name="description" [(ngModel)]="description">
+        {{ description }}
+    </p>
+
+    <!-- <div>
+        <label>name:</label>
+        {{ myForm1.value.name }}
+    </div>
+    
+    <div>
+        <label>description:</label>
+        {{ myForm1.value.description }}
+    </div> -->
+
+    <pre>
+        <label>MyForm1</label>
+        {{ myForm1.value | json }}
+    </pre>
+
+    <!-- <pre>
+        <label>name:</label>
+        {{ myForm1.control | json }}
+    </pre> -->
+
+</form>
+
+<hr>
+<p>Поведение в реактивной форме</p>
+
+<form [formGroup]="reactiveForm1">
+    <p>
+        <label>name </label>
+        <input type="text" name="name" formControlName="name">
+    </p>
+    <p>
+        <label>description </label>
+        <input type="text" name="description" formControlName="description">
+    </p>
+
+    <pre>
+        <label>ReactiveForm1</label>
+        {{ reactiveForm1.value | json }}
+    </pre>
+
+</form>
+
+<hr>
+<p>Поведение в формбилдере реактивной форме</p>
+
+<form [formGroup]="formBuilder1">
+    <p>
+        <label>name </label>
+        <input type="text" name="name" formControlName="name">
+        <br>
+        <span *ngIf="formBuilder1.get('name').dirty">Поле было изменено</span>
+        <span *ngIf="formBuilder1.get('name').pristine">Не было введено ни одного символа</span>
+        <br>
+        <span *ngIf="formBuilder1.get('name').valid">Заполнено</span>
+        <span *ngIf="formBuilder1.get('name').invalid">Поле обязательно для заполнения</span>
+        <br>
+        <code>{{ formBuilder1.get('name').status }}</code>
+    </p>
+
+    <p>
+        <label>description </label>
+        <input type="text" name="description" formControlName="description">
+        <br>
+        <span *ngIf="formBuilder1.get('description').touched">С полем взаимодействовали</span>
+        <span *ngIf="formBuilder1.get('description').untouched">С полем не было взаимодействия</span>
+        <br>
+        <span *ngIf="formBuilder1.get('description').valid">Заполнено</span>
+        <span *ngIf="formBuilder1.get('description').invalid">Поле обязательно для заполнения</span>
+    </p>
+
+    <p>
+        <label>title </label>
+        <input type="text" name="title" formControlName="title" disabled>
+        <br>
+        <code>{{ formBuilder1.get('title').status }}</code>
+        <br>
+        <span *ngIf="formBuilder1.get('title').disabled">Нективно</span>
+        <span *ngIf="formBuilder1.get('title').enabled">Активно</span>
+        <br>
+        <button (click)="toggle()">D/E</button>
+    </p>
+
+    <div formArrayName="phones">
+        <p *ngFor="let phone of getPhones.controls; let i=index">
+            <label>{{ i + 1 }} </label>
+            <input type="text" [formControlName]="i">
+        </p>
+    </div>
+
+    <p>
+        <label>age</label>
+        <input type="number" formControlName="age">
+        <span *ngIf="getAge.getError('min')">
+            Поле не может быть меньше {{ getAge.getError('min').min }}
+        </span>
+        <span *ngIf="getAge.getError('max')">
+            Поле не может быть больше {{ getAge.getError('max').max }}
+        </span>
+    </p>
+
+    <code>
+        <label>Errors</label>
+        {{ getAge.errors | json }}
+    </code>
+
+    <br>
+    <button (click)="refresh()">Refresh</button>
+
+    <pre>
+        <label>FormBuilder1</label>
+        {{ formBuilder1.value | json }}
+    </pre>
+
+</form>
